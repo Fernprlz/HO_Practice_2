@@ -1,11 +1,18 @@
 import java.util.*;
 public class Grafo {
-	byte[][] grafo;
 	
-	public Grafo(byte[][] grafo) {
-		this.grafo = grafo;
+	private Set<Nodo> nodos = new HashSet<>();
+	
+	public Grafo() {
+		
 	}
 	
+	public void addNodo(Nodo nodo) {
+		nodos.add(nodo);
+	}
+	
+	/*
+	 * byte[][] grafo;
 	public boolean isAdjacent(int sourceP, int targetP) {
 		return grafo[sourceP][targetP] > 0;
 	}
@@ -19,5 +26,7 @@ public class Grafo {
 		}
 		return result;
 	}
+	*/
+	
 	
 }
