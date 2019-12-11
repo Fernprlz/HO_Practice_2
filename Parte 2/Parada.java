@@ -1,25 +1,20 @@
 
 public class Parada {
 
-	// Podemos hacer de el objeto parada los nodos del grafo
-	// añadiendo un campo que sea una lista de paradas adyacentes
-	// de alguna forma
-	private final int ID;
 	private int c1;
 	private int c2;
 	private int c3;
-	private int colegio;
+	private int colegio1;
+	private int colegio2;
+	private int colegio3;
 	
-	public Parada(int id, int c1, int c2, int c3, int c) {
-		this.ID = id;
+	public Parada(int c1, int c2, int c3, int c, int colegio1, int colegio2, int colegio3) {
 		this.c1 = c1;
 		this.c2 = c2;
 		this.c3 = c3;
-		this.colegio = c;
-	}
-	
-	public int getID() {
-		return ID;
+		this.colegio1 = colegio1;
+		this.colegio2 = colegio2;
+		this.colegio3 = colegio3;
 	}
 	
 	public int getC1() {
@@ -46,11 +41,29 @@ public class Parada {
 		this.c3 = c3;
 	}
 
-	public int getColegio() {
-		return colegio;
+	public int getColegio1() {
+		return colegio1;
 	}
 
-	public void setColegio(int colegio) {
-		this.colegio = colegio;
+	public void setColegio1(int colegio1) {
+		this.colegio1 = colegio1;
 	}
+
+	public int getColegio2() {
+		return colegio2;
+	}
+
+	public void setColegio2(int colegio2) {
+		this.colegio2 = colegio2;
+	}
+
+	public int getColegio3() {
+		return colegio3;
+	}
+
+	public void setColegio3(int colegio3) {
+		this.colegio3 = colegio3;
+	}
+
+
 }
