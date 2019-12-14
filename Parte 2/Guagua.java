@@ -1,50 +1,32 @@
-
+import java.util.stream.*;
 public class Guagua {
 
-	private final int CAP;
-	private Parada paradaActual;
-	private int c1;
-	private int c2;
-	private int c3;
+	// Guardamos la capacidad total para poder sacar la capacidad actual cuando la necesitemos
+	// Su valor se asigna desde el método initState() del Main
+	public static int CAP;
 	
-	public Guagua(int cap, Parada p, int c1, int c2, int c3) {
-		this.CAP = cap;
-		this.paradaActual = p;
-		this.c1 = c1;
-		this.c2 = c2;
-		this.c3 = c3;
+	public int indexParadaActual;
+	public int[] alumnosPorColegio;
+	
+	public Guagua(int indexParadaInicial, int numColegios) {
+		this.indexParadaActual = indexParadaInicial;
+		this.alumnosPorColegio = new int[numColegios];
+	}
+	
+	public int getCapacidadActual() {
+		return CAP - (IntStream.of(alumnosPorColegio).sum());
 	}
 
-	public Parada getParadaActual() {
-		return paradaActual;
+	public int getParadaActual() {
+		return indexParadaActual;
 	}
 
-	public void setParadaActual(Parada paradaActual) {
-		this.paradaActual = paradaActual;
+	public void setParadaActual(int indexParadaActual) {
+		this.indexParadaActual = indexParadaActual;
 	}
-
-	public int getC1() {
-		return c1;
-	}
-
-	public void setC1(int c1) {
-		this.c1 = c1;
-	}
-
-	public int getC2() {
-		return c2;
-	}
-
-	public void setC2(int c2) {
-		this.c2 = c2;
-	}
-
-	public int getC3() {
-		return c3;
-	}
-
-	public void setC3(int c3) {
-		this.c3 = c3;
+	
+	public int[] getAlumnosPorColegio() {
+		return alumnosPorColegio;
 	}
 
 	public int getCAP() {
