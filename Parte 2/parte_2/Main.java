@@ -7,12 +7,12 @@ public class Main {
 	public static void main(String[] args) {
 		
 		long startTime = System.currentTimeMillis();
-		
+		System.out.println(args[0]);
 		// Creamos el estado inicial y le asignamos valores sacados del archivo de entrada
-		Estado estadoInicial = Util.initState("s");
+		Estado estadoInicial = Util.initState(args[0]);
 		
 		//printMatrix(Util.costesAdyacentes);
-		
+		/*
 		printMatrix(Util.FWMatrix);
 
 		// Generar estado final a partir del inicial
@@ -81,7 +81,7 @@ public class Main {
 					System.out.println("Heuristica: " + nuevoEstado.h);
 					// Comprobar si el estado generado esta en la lista cerrada
 					if (!Util.isInList(nuevoEstado, cerrada)) {
-						// Comprobar si el estado generado esta en la lista abierta. Si lo está, se comparan las funciones de coste
+						// Comprobar si el estado generado esta en la lista abierta. Si lo estï¿½, se comparan las funciones de coste
 						if (!Util.isButBetter(nuevoEstado, abierta)) {
 							System.out.println("no en lista");
 							sucesores.add(nuevoEstado);
@@ -100,7 +100,7 @@ public class Main {
 					System.out.println(nuevoEstado.toString());
 					// Comprobar si el estado generado esta en la lista cerrada
 					if (!Util.isInList(nuevoEstado, cerrada)) {
-						// Comprobar si el estado generado esta en la lista abierta. Si lo está, se comparan las funciones de coste
+						// Comprobar si el estado generado esta en la lista abierta. Si lo estï¿½, se comparan las funciones de coste
 						if (!Util.isButBetter(nuevoEstado, abierta)) {
 							System.out.println("no en lista");
 							sucesores.add(nuevoEstado);
@@ -121,7 +121,7 @@ public class Main {
 					System.out.println(nuevoEstado.toString());
 					// Comprobar si el estado generado esta en la lista cerrada
 					if (!Util.isInList(nuevoEstado, cerrada)) {
-						// Comprobar si el estado generado esta en la lista abierta. Si lo está, se comparan las funciones de coste
+						// Comprobar si el estado generado esta en la lista abierta. Si lo estï¿½, se comparan las funciones de coste
 						if (!Util.isButBetter(nuevoEstado, abierta)) {
 							sucesores.add(nuevoEstado);
 							estadosGenerados++;
@@ -158,7 +158,7 @@ public class Main {
 		System.out.println("Estados expandidos: " + estadosExpandidos);
 		System.out.println("Camino: " + camino);
 		System.out.println("Tiempo: " + execTime + " ms");
-
+*/
 	}
 
 	public static void printMatrix(int[][] matrix) {

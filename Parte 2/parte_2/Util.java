@@ -1,5 +1,8 @@
 package parte_2;
 import java.util.*;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 public class Util {
 
 	static final int INFINITE = -1;
@@ -19,7 +22,16 @@ public class Util {
 	 */
 	public static Estado initState(String input2) {
 		// TODO: DE MOMENTO USAMOS LA STRING COMO VARIABLE EN LUGAR DE COMO ENTRADA
-		String input = "    P1  P2  P3  P4  P5  P6  P7  P8  P9\r\n" +
+		String input = "";
+		
+		try {
+		input = Files.readString(Paths.get(input2));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(input);
+		
+		/*String input = "    P1  P2  P3  P4  P5  P6  P7  P8  P9\r\n" +
 				"P1  --  12  --  --  --  --  --  --   9\r\n" +
 				"P2  12  --  13  --  10  --  --  --  --\r\n" +
 				"P3  --  13  --  13  --  --  --  --   6\r\n" +
@@ -87,7 +99,7 @@ public class Util {
 
 		String[] ubicacionColegios = lineasOtrosDatos[0].split(";");
 
-		// El tamaño de esta array nos dira cuantos colegios hay, con lo que podremos inicializar las arrays de colegios de TODO PARADA Y UTIL
+		// El tamaï¿½o de esta array nos dira cuantos colegios hay, con lo que podremos inicializar las arrays de colegios de TODO PARADA Y UTIL
 		NUM_COLEGIOS = ubicacionColegios.length;
 
 		// Inicializamos el array de indices para acceder a las paradas que contienen los colegios mï¿½s facilmente.
@@ -151,7 +163,8 @@ public class Util {
 		
 		// Creamos la matriz de costes entre cada par de Paradas
 		FloydWarshall();
-		return new Estado(paradas, guagua);
+		return new Estado(paradas, guagua);*/
+		return new Estado();
 	}
 
 
@@ -175,13 +188,13 @@ public class Util {
 
 
 	/**
-	 * Calcula una heurística
+	 * Calcula una heurï¿½stica
 	 * @param estado
 	 * @return
 	 */
 	public static int calcHeuristic(Parada[] paradas, Guagua guagua) {
 		int coste = 0;
-		// La heuristica numero 1 se hará con la matriz de Floyd-Warshall y los alumnos en la guagua
+		// La heuristica numero 1 se harï¿½ con la matriz de Floyd-Warshall y los alumnos en la guagua
 		if (HEURISTICA == 1) {
 			for (int j = 0; j < guagua.alumnosPorColegio.length; j++) {
 				coste += guagua.alumnosPorColegio[j] * FWMatrix[guagua.indexParadaActual][Util.indexParadaColegio[j]];		
@@ -193,7 +206,7 @@ public class Util {
 				}
 			}
 		}
-		// La heuristica numero 2 será la que toma el número de alumnos restantes por entregar
+		// La heuristica numero 2 serï¿½ la que toma el nï¿½mero de alumnos restantes por entregar
 		if (HEURISTICA == 2) {
 			for (int i = 0; i < NUM_PARADAS; i++) {
 				for (int j = 0; j < NUM_COLEGIOS; j++) {
@@ -240,8 +253,8 @@ public class Util {
 
 
 	/**
-	 * Comprueba que un estado ya está en la lista, pero aparece con mayor heurística. 
-	 * En ese caso la elimina para que pueda añadirse la mejor versión.
+	 * Comprueba que un estado ya estï¿½ en la lista, pero aparece con mayor heurï¿½stica. 
+	 * En ese caso la elimina para que pueda aï¿½adirse la mejor versiï¿½n.
 	 * @param estado
 	 * @param lista
 	 * @return
@@ -258,10 +271,10 @@ public class Util {
 			}
 		}
 
-		// Si lo hemos encontrado, comparamos las heurísticas
+		// Si lo hemos encontrado, comparamos las heurï¿½sticas
 		if(isInList) {
 			int diff = heur.compare(lista.get(coincidenceIndex), estado);
-			// Si la heurística del nuevo estado es mejor, eliminamos su anterior iteracion de la lista 
+			// Si la heurï¿½stica del nuevo estado es mejor, eliminamos su anterior iteracion de la lista 
 			// No introducimos aqui el nuevo estado, pues se introducira desde el algoritmo
 			if (diff > 0) {
 				lista.remove(coincidenceIndex);
@@ -273,7 +286,7 @@ public class Util {
 
 	//TODO: Es eficiente?
 	/**
-	 * Comprueba que un estado ya está en la lista comparando todos los campos del objeto
+	 * Comprueba que un estado ya estï¿½ en la lista comparando todos los campos del objeto
 	 * @param estado
 	 * @param lista
 	 * @return
@@ -290,7 +303,7 @@ public class Util {
 	}
 
 	/**
-	 * Ordena una lista de estados según la heurística
+	 * Ordena una lista de estados segï¿½n la heurï¿½stica
 	 * @param Lista a ordenar
 	 */
 	public static void sort(ArrayList<Estado> list) {
@@ -306,23 +319,23 @@ public class Util {
 		// Instancio la clase ByHeuristics para aprovechar el metodo compare
 		ByHeuristics heur = new ByHeuristics();
 
-		// Recorro la lista pequeña y voy insertando uno a uno sus elementos en la grande, ordenadamente.
+		// Recorro la lista pequeï¿½a y voy insertando uno a uno sus elementos en la grande, ordenadamente.
 		for (int guestIndex = 0; guestIndex < guest.size(); guestIndex++) {
 			// Comparo con cada uno de los elementos de la lista grande hasta encontrar su lugar.
 			boolean added = false;
 			for (int hostIndex = 0; hostIndex < host.size(); hostIndex++) {
-				// Hallo la diferencia entre las heurísticas
+				// Hallo la diferencia entre las heurï¿½sticas
 				int diff = heur.compare(host.get(hostIndex), guest.get(guestIndex));
-				// Si la diferencia es positiva, el estado de la lista pequeña deberá ocupar el actual lugar
+				// Si la diferencia es positiva, el estado de la lista pequeï¿½a deberï¿½ ocupar el actual lugar
 				// del estado en el indice hostIndex de la lista grande.
 				if (diff > 0) {
 					host.add(hostIndex, guest.get(guestIndex));
-					// Tras añadirla no necesito seguir recorriendo la lista.
+					// Tras aï¿½adirla no necesito seguir recorriendo la lista.
 					added = true;
 					break;
 				} 
 			}
-			// Si tras analizar toda la lista no hemos encontrado sitio, la añadimos al final
+			// Si tras analizar toda la lista no hemos encontrado sitio, la aï¿½adimos al final
 			if (added == false) {
 				host.add(guest.get(guestIndex));
 			}
