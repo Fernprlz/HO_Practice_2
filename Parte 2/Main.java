@@ -101,6 +101,21 @@ public class Main {
 				for (int colegio=0; colegio < Util.NUM_COLEGIOS; colegio++) {
 					if (actualEstado.paradas[parada].alumnosPorColegio[colegio]>0) {
 						nuevoEstado = new Estado (actualEstado, "recoger", source, colegio);
+						if (!Util.isInList(nuevoEstado, abierta)) {
+							sucesores.add(nuevoEstado);
+						}
+					}
+				}
+			}
+			
+			//TODO:Entregar alumno: entregar(int parada, int colegio)
+			for (int parada=0; parada < Util.NUM_PARADAS; parada++) {
+				for (int colegio=0; colegio < Util.NUM_COLEGIOS; colegio++) {
+					if (actualEstado.paradas[parada].alumnosPorColegio[colegio]>0) {
+						nuevoEstado = new Estado (actualEstado, "entregar", source, colegio);
+						if (!Util.isInList(nuevoEstado, abierta)) {
+							sucesores.add(nuevoEstado);
+						}
 					}
 				}
 			}

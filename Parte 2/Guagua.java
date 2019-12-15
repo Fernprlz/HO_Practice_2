@@ -14,17 +14,10 @@ public class Guagua {
 	}
 
 	// Constructor para crear Guagua nueva a partir de una anterior
-	public Guagua(int indexParada, int[] alumnos, String accion) {
-		// Accion MOVER
-		if (accion.equals("mover")) {
+	public Guagua(int indexParada, int[] alumnos) {
 			this.indexParadaActual = indexParada;
 			this.alumnosPorColegio = alumnos.clone();
-		}
-		// Accion RECOGER
-		if (accion.equals("recoger")) {
-			this.indexParadaActual = indexParada;
-			this.alumnosPorColegio = alumnos.clone();
-		}
+
 	}
 		
 

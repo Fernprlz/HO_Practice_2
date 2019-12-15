@@ -192,6 +192,7 @@ public class Util {
 
 	/*---------------------------- I N P U T  P A R S E R ----------------------------*/
 
+	
 	public static boolean isInList(Estado estado, ArrayList<Estado> lista){
 		boolean isInList = false;
 		for (int ii=0; ii<lista.size(); ii++){

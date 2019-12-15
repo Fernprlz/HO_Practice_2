@@ -20,19 +20,28 @@ public class Estado {
 	public Estado(Estado estadoPrevio, String accion, int source, int segundoParametro){
 		//En caso de que la accion sea mover, el segundo parametro actuara como target
 		if (accion.equals("mover")) {
-			this.guagua = new Guagua (segundoParametro, estadoPrevio.guagua.alumnosPorColegio, "mover");
+			this.guagua = new Guagua (segundoParametro, estadoPrevio.guagua.alumnosPorColegio);
 			this.paradas = estadoPrevio.paradas.clone();
 			h = 0;
 			h = h + Util.costesAdyacentes[source][segundoParametro];
 		}
 		
-		//En caso de que la accion sea recoger, el segundo parametro actua como el ID del colegio
+		//En caso de que la accion sea recoger, el segundo parametro actua como el indice del colegio
 		if (accion.equals("recoger")) {
-			this.guagua = new Guagua (segundoParametro, estadoPrevio.guagua.alumnosPorColegio, "recoger");
-			this.paradas = estadoPrevio.paradas.clone();
+			// Aumentar el numero de alumnos en la guagua del colegio correspondiente
+			int[] nuevoAlumnosGuagua = estadoPrevio.guagua.alumnosPorColegio.clone();
+			nuevoAlumnosGuagua[segundoParametro]++;		
+			this.guagua = new Guagua (source, nuevoAlumnosGuagua);
+			
+			// Reducir el numero de alumnos en la parada del colegio correspondiente
+			Parada[] nuevasParadas = estadoPrevio.paradas.clone();
+			nuevasParadas[source].alumnosPorColegio[segundoParametro]--;		
+			this.paradas = nuevasParadas.clone();
 			h = 0;
-			h = h + Util.costesAdyacentes[source][segundoParametro];
+			//TODO: Heuristica aqui
 		}
+		
+		//En caso de que la accion sea entregar, el segundo parametro actua como el indice del colegio
 	}
 
 	public Parada getParada(int index) {
