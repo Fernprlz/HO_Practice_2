@@ -1,3 +1,4 @@
+package parte_2;
 import java.util.*;
 public class Estado {
 
@@ -83,10 +84,14 @@ public class Estado {
 			}
 			result += "\n";
 		}
+		result += "\nDISTRIBUCION DE COLEGIOS\n";
+		for (int ii = 0; ii < Util.indexParadaColegio.length; ii++) {
+			result += "C" + (ii + 1) + ": P" + Util.indexParadaColegio[ii] + "\n";
+		}
 
 		return result;
 	}
-}
+
 
 	public boolean compararEstadoCon(Estado estado2){
 		boolean sonIguales = true;
@@ -112,5 +117,17 @@ public class Estado {
 		}
 
 		return sonIguales;
+	}
+}
+
+// Definimos el criterio que usará Collections.sort para ordenar la ArrayList de estados.
+// Esta función implementa mergeSort.
+class ByHeuristics implements Comparator<Estado> {
+	
+	/**
+	 * Compara dos Estados según su heurística devolviendo la diferencia del primero con el segundo. 
+	 */
+	public int compare(Estado a, Estado b) {
+		return a.h - b.h;
 	}
 }

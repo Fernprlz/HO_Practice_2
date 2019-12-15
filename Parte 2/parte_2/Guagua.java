@@ -1,3 +1,4 @@
+package parte_2;
 import java.util.stream.*;
 public class Guagua {
 

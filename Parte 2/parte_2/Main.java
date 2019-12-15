@@ -1,3 +1,4 @@
+package parte_2;
 import java.util.ArrayList;
 
 public class Main {
@@ -22,16 +23,20 @@ public class Main {
 
 		Estado actualEstado;
 		abierta.add(estadoInicial);
-
+		
+		estadoInicial.toString();
+		/*
 		while (!abierta.isEmpty()) {
 			if (exito) break;
 			//Generar sucesores
 			actualEstado = abierta.get(0);
 			ArrayList<Estado> sucesores = new ArrayList<Estado>();
 			//Mover guagua: mover(int source, int target)
-			int source = actualEstado.guagua.indexParadaActual;			// Asignar como source la parada actual de la guagua
+			// Asignar como source la parada actual de la guagua
+			int source = actualEstado.guagua.indexParadaActual;
 			for (int target=0; target < Util.NUM_PARADAS; target++) {
-				if (Util.costesAdyacentes[source][target] > 0){			// Si las paradas son adyacentes, la guagua se puede mover entre ellas
+				// Si las paradas son adyacentes, la guagua se puede mover entre ellas
+				if (Util.costesAdyacentes[source][target] > 0){			
 					nuevoEstado = new Estado (actualEstado, "mover", source, target);
 					System.out.println("Moviendo guagua a parada numero " + (target+1));
 					System.out.println("heuristica: " + nuevoEstado.h);
@@ -65,11 +70,11 @@ public class Main {
 					}
 				}
 			}
-			Util.quickSort(sucesores);
+			Util.sort(sucesores);
 			abierta.remove(0);
 			System.out.println("Lista vacia: " + abierta.isEmpty());
 			cerrada.add(actualEstado);
-		}
+		}*/
 	}
 
 	public static void printArray(int[] array) {

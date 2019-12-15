@@ -1,3 +1,4 @@
+package parte_2;
 import java.util.*;
 public class Util {
 
@@ -225,8 +226,7 @@ public class Util {
 		return isInList;
 	}
 
-	public static void quickSort(ArrayList<Estado> lista) {
-		//TODO
+	public static void sort(ArrayList<Estado> list) {
+		Collections.sort(list, new ByHeuristics());
 	}
-
 }
