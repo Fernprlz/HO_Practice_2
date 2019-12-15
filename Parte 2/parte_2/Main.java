@@ -87,6 +87,7 @@ public class Main {
 			System.out.println("Lista vacia: " + abierta.isEmpty());
 			cerrada.add(actualEstado);
 		}
+		 
 	}
 
 	public static void printArray(int[] array) {

@@ -249,21 +249,22 @@ public class Util {
 		// Recorro la lista pequeña y voy insertando uno a uno sus elementos en la grande, ordenadamente.
 		for (int guestIndex = 0; guestIndex < guest.size(); guestIndex++) {
 			// Comparo con cada uno de los elementos de la lista grande hasta encontrar su lugar.
+			boolean added = false;
 			for (int hostIndex = 0; hostIndex < host.size(); hostIndex++) {
 				// Hallo la diferencia entre las heurísticas
-				int thisDiff = heur.compare(host.get(hostIndex), guest.get(guestIndex));
+				int diff = heur.compare(host.get(hostIndex), guest.get(guestIndex));
 				// Si la diferencia es positiva, el estado de la lista pequeña deberá ocupar el actual lugar
 				// del estado en el indice hostIndex de la lista grande.
-				if (thisDiff > 0) {
+				if (diff > 0) {
 					host.add(hostIndex, guest.get(guestIndex));
 					// Tras añadirla no necesito seguir recorriendo la lista.
+					added = true;
 					break;
-				} else if (hostIndex + 1 == host.size()){
-					// Si nos encontramos en la última posición de la lista grande y no hemos encontrado el lugar, 
-					// la añadimos al final.
-					host.add(guest.get(guestIndex));
-				}
-				// En cualquier otro caso, pasamos a comparar con el siguiente elemento de la lista grande.
+				} 
+			}
+			// Si tras analizar toda la lista no hemos encontrado sitio, la añadimos al final
+			if (added == false) {
+				host.add(guest.get(guestIndex));
 			}
 		}
 	}

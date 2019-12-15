@@ -10,6 +10,10 @@ public class Estado {
 	public Estado() {
 
 	}
+	
+	public Estado(int h) {
+		this.h = h;
+	}
 
 	public Estado(Parada[] paradas, Guagua guagua) {
 		this.paradas = paradas;
@@ -101,7 +105,7 @@ public class Estado {
 			result += "C" + (ii + 1) + ": P" + Util.indexParadaColegio[ii] + "\n";
 		}
 
-		return result;
+		return result;	
 	}
 
 
