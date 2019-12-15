@@ -143,7 +143,7 @@ public class Util {
 
 		return new Estado(paradas, guagua);
 	}
-	
+
 	// Metodo para construir el estado final a partir del inicial
 	public static Estado finalState(Estado estadoInicial) {
 		Parada[] paradas = new Parada [NUM_PARADAS];
@@ -152,7 +152,7 @@ public class Util {
 			int[] finalAlumnosParada = new int [NUM_COLEGIOS];
 			paradas[i]= new Parada(finalAlumnosParada, finalColegios);		
 		}
-		
+
 		int posicion = estadoInicial.guagua.indexParadaActual;
 		Guagua guagua = new Guagua(posicion, NUM_COLEGIOS);
 		return new Estado (paradas, guagua);
@@ -227,9 +227,6 @@ public class Util {
 		}
 	}
 
-	/*---------------------------- I N P U T  P A R S E R ----------------------------*/
-
-
 	public static boolean isInList(Estado estado, ArrayList<Estado> lista){
 		boolean isInList = false;
 		for (int ii=0; ii<lista.size(); ii++){
@@ -243,5 +240,31 @@ public class Util {
 
 	public static void sort(ArrayList<Estado> list) {
 		Collections.sort(list, new ByHeuristics());
+	}
+
+	public static void mergeListsInOrder(ArrayList<Estado> host, ArrayList<Estado> guest) {
+		// Instancio la clase ByHeuristics para aprovechar el metodo compare
+		ByHeuristics heur = new ByHeuristics();
+
+		// Recorro la lista pequeña y voy insertando uno a uno sus elementos en la grande, ordenadamente.
+		for (int guestIndex = 0; guestIndex < guest.size(); guestIndex++) {
+			// Comparo con cada uno de los elementos de la lista grande hasta encontrar su lugar.
+			for (int hostIndex = 0; hostIndex < host.size(); hostIndex++) {
+				// Hallo la diferencia entre las heurísticas
+				int thisDiff = heur.compare(host.get(hostIndex), guest.get(guestIndex));
+				// Si la diferencia es positiva, el estado de la lista pequeña deberá ocupar el actual lugar
+				// del estado en el indice hostIndex de la lista grande.
+				if (thisDiff > 0) {
+					host.add(hostIndex, guest.get(guestIndex));
+					// Tras añadirla no necesito seguir recorriendo la lista.
+					break;
+				} else if (hostIndex + 1 == host.size()){
+					// Si nos encontramos en la última posición de la lista grande y no hemos encontrado el lugar, 
+					// la añadimos al final.
+					host.add(guest.get(guestIndex));
+				}
+				// En cualquier otro caso, pasamos a comparar con el siguiente elemento de la lista grande.
+			}
+		}
 	}
 }
