@@ -7,7 +7,7 @@ public class Util {
 	static int NUM_COLEGIOS;
 	static int[][] costesAdyacentes;
 	static int[] indexParadaColegio;
-	static int HEURISTICA = 2;
+	static int HEURISTICA = 1;
 	static int[][] FWMatrix;
 
 	// TODO: Cambiar input2 a input cuando terminemos para pasarle el argumento

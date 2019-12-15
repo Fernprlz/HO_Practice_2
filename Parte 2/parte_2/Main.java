@@ -1,5 +1,6 @@
 package parte_2;
 import java.util.ArrayList;
+import java.io.*;
 
 public class Main {
 
@@ -48,8 +49,8 @@ public class Main {
 			actualEstado = abierta.get(0);
 
 			System.out.println("-------------------------------------------------");
-
-			camino += "P" + (actualEstado.guagua.indexParadaActual+1) +"\t";
+			
+			camino += "P" + (actualEstado.guagua.indexParadaActual+1) +" ";
 			System.out.println("ESTADO ACTUAL");
 			System.out.println(actualEstado.toString());
 			System.out.println("Heuristica: " + actualEstado.h);
@@ -83,6 +84,9 @@ public class Main {
 					if (!Util.isInList(nuevoEstado, cerrada)) {
 						// Comprobar si el estado generado esta en la lista abierta. Si lo está, se comparan las funciones de coste
 						if (!Util.isButBetter(nuevoEstado, abierta)) {
+							// Actualizar variable de coste
+							costeFinal =+ Util.costesAdyacentes[source][target];
+							
 							System.out.println("no en lista");
 							sucesores.add(nuevoEstado);
 							estadosGenerados++;
@@ -142,7 +146,7 @@ public class Main {
 			costeFinal = actualEstado.h;
 
 		}
-
+		
 
 		//System.out.println("Abierta:");
 		//System.out.println(abierta.toString());
@@ -156,9 +160,26 @@ public class Main {
 		System.out.println("Coste total: " + costeFinal);
 		System.out.println("Estados generados: " + estadosGenerados);
 		System.out.println("Estados expandidos: " + estadosExpandidos);
-		System.out.println("Camino: " + camino);
+		System.out.println("Camino (la misma parada dos veces significa que se han hecho varias acciones en esa parada): " + camino);
 		System.out.println("Tiempo: " + execTime + " ms");
-
+	
+		
+		// Crear archivo de salida con el camino seguido por el algoritmo
+        try {
+            String ruta = "/problema.output";
+            String contenido = camino;
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 
 	public static void printMatrix(int[][] matrix) {
