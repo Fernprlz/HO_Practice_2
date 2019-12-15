@@ -1,3 +1,4 @@
+package parte_2;
 import java.util.stream.*;
 public class Guagua {
 
@@ -17,7 +18,6 @@ public class Guagua {
 	public Guagua(int indexParada, int[] alumnos) {
 			this.indexParadaActual = indexParada;
 			this.alumnosPorColegio = alumnos.clone();
-
 	}
 		
 

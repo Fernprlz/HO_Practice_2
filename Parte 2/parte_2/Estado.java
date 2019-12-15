@@ -1,3 +1,4 @@
+package parte_2;
 import java.util.*;
 public class Estado {
 
@@ -25,23 +26,35 @@ public class Estado {
 			h = 0;
 			h = h + Util.costesAdyacentes[source][segundoParametro];
 		}
-		
+
 		//En caso de que la accion sea recoger, el segundo parametro actua como el indice del colegio
 		if (accion.equals("recoger")) {
 			// Aumentar el numero de alumnos en la guagua del colegio correspondiente
 			int[] nuevoAlumnosGuagua = estadoPrevio.guagua.alumnosPorColegio.clone();
-			nuevoAlumnosGuagua[segundoParametro]++;		
+			nuevoAlumnosGuagua[segundoParametro]++;
 			this.guagua = new Guagua (source, nuevoAlumnosGuagua);
-			
+
 			// Reducir el numero de alumnos en la parada del colegio correspondiente
 			Parada[] nuevasParadas = estadoPrevio.paradas.clone();
-			nuevasParadas[source].alumnosPorColegio[segundoParametro]--;		
+			nuevasParadas[source].alumnosPorColegio[segundoParametro]--;
 			this.paradas = nuevasParadas.clone();
 			h = 0;
 			//TODO: Heuristica aqui
 		}
-		
+
 		//En caso de que la accion sea entregar, el segundo parametro actua como el indice del colegio
+		if (accion.equals("entregar")) {
+			// Reducir el numero de alumnos en la guagua del colegio correspondiente
+			int[] nuevoAlumnosGuagua = estadoPrevio.guagua.alumnosPorColegio.clone();
+			nuevoAlumnosGuagua[segundoParametro]--;
+			this.guagua = new Guagua (source, nuevoAlumnosGuagua);
+
+			// La parada se queda igual: el alumno "desaparece"
+			this.paradas = estadoPrevio.paradas.clone();
+			h = 0;
+			//TODO: Heuristica aqui
+		}
+	
 	}
 
 	public Parada getParada(int index) {
@@ -51,6 +64,42 @@ public class Estado {
 	public Guagua getGuagua() {
 		return guagua;
 	}
+
+	@Override
+	public String toString() {
+		String result = "DISTRIBUCION DE ALUMNOS\n\t";
+		for (int parada = 0; parada <= paradas.length; parada++) {
+			for (int colegio = 0; colegio <= paradas[0].alumnosPorColegio.length; colegio++) {
+				if (parada == 0 && colegio > 0) {
+					result += "C"+colegio+"\t";
+				} else if (parada > 0 && colegio == 0) {
+					result += "P"+parada+"\t";
+				} else if (parada > 0 && colegio > 0) {
+					result += paradas[parada - 1].alumnosPorColegio[colegio - 1] + "\t";
+				}
+			}
+			result += "\n";
+		}
+
+		result += "\nDATOS DE LA GUAGUA\n";
+		result += "Parada Actual: P"+(guagua.indexParadaActual + 1)+"\n";
+		result += "\t";
+		for (int ii = 0; ii <= 1; ii++) {
+			for (int colegio = 0; colegio <= guagua.alumnosPorColegio.length; colegio++) {
+				if (ii == 0 && colegio > 0) {
+					result += "C"+colegio+"\t";
+				} else if (ii > 0 && colegio == 0) {
+					result += "G\t";
+				} else if (ii > 0 && colegio > 0) {
+					result += guagua.alumnosPorColegio[colegio - 1] + "\t";
+				}
+			}
+			result += "\n";
+		}
+
+		return result;
+	}
+
 
 	public boolean compararEstadoCon(Estado estado2){
 		boolean sonIguales = true;
@@ -74,9 +123,9 @@ public class Estado {
 				if (!sonIguales) break;
 			}
 		}
-		
-		//System.out.println("Estados iguales: " + sonIguales);
-		
+
 		return sonIguales;
 	}
+	
+	
 }
