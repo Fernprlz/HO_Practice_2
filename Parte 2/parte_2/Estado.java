@@ -54,7 +54,7 @@ public class Estado {
 			h = 0;
 			//TODO: Heuristica aqui
 		}
-	
+
 	}
 
 	public Parada getParada(int index) {
@@ -110,34 +110,33 @@ public class Estado {
 		// Hacer todas las comparaciones
 		// Comparar primero el estado de la guagua, que es mas facil
 		if (this.guagua.indexParadaActual != estado2.guagua.indexParadaActual) {
-		sonIguales = false;
-		}
-		else if (Arrays.equals(this.guagua.alumnosPorColegio, estado2.guagua.alumnosPorColegio) == false) {
-		sonIguales = false;
-		System.out.println("dos");
+			sonIguales = false;
+		} else if (Arrays.equals(this.guagua.alumnosPorColegio, estado2.guagua.alumnosPorColegio) == false) {
+			sonIguales = false;
 		}
 		if (sonIguales) {
-			//System.out.println("tres");
-		// Si sonIguales sigue siendo true, comparar todas las paradas hasta que se encuentre una que no coincide
+			// Si sonIguales sigue siendo true, comparar todas las paradas hasta que se encuentre una que no coincide
 			for (int ii=0; ii<Util.NUM_PARADAS; ii++){
-				if (Arrays.equals(this.paradas[ii].alumnosPorColegio, estado2.paradas[ii].alumnosPorColegio) == false)
+				if (Arrays.equals(this.paradas[ii].alumnosPorColegio, estado2.paradas[ii].alumnosPorColegio) == false) {
 					sonIguales = false;
-				else if (Arrays.equals(this.paradas[ii].colegiosEnParada, estado2.paradas[ii].colegiosEnParada) == false)
+					break;
+				}else if (Arrays.equals(this.paradas[ii].colegiosEnParada, estado2.paradas[ii].colegiosEnParada) == false){ 
 					sonIguales = false;
-				if (!sonIguales) break;
+					break;
+				}
 			}
 		}
 
 		return sonIguales;
 	}
-	
-	
+
+
 }
 
 // Definimos el criterio que usará Collections.sort para ordenar la ArrayList de estados.
 // Esta función implementa mergeSort.
 class ByHeuristics implements Comparator<Estado> {
-	
+
 	/**
 	 * Compara dos Estados según su heurística devolviendo la diferencia del primero con el segundo. 
 	 */

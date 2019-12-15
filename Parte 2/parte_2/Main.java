@@ -7,23 +7,17 @@ public class Main {
 	public static void main(String[] args) {
 		// Creamos el estado inicial y le asignamos valores sacados del archivo de entrada
 		Estado estadoInicial = Util.initState("s");
-		
-		
-		System.out.println("Numero de paradas: " + Util.NUM_PARADAS);
-		
+
 		// Generar estado final a partir del inicial
 		Estado estadoFinal = Util.finalState(estadoInicial);
 		
 		System.out.println("estado inicial");
 		System.out.println(estadoInicial.toString());
-
 		System.out.println();
 		System.out.println("Estado final:");
 		System.out.println(estadoFinal.toString());
 		
 		String camino = "";
-		// Implementar el modelo
-		
 
 		// Implementar A*
 		ArrayList<Estado> abierta = new ArrayList<Estado>();
@@ -31,17 +25,16 @@ public class Main {
 		
 		//Lista de sucesores	
 		ArrayList<Estado> sucesores = new ArrayList<Estado>();
-		
+
 		boolean exito = false;
 		Estado nuevoEstado;
-
 		Estado actualEstado;
 		abierta.add(estadoInicial);
 		
 		int counter = 0;
 		int estadosGenerados = 0;
 		
-		while (!abierta.isEmpty() /*&& counter<5*/) {
+		while (!abierta.isEmpty()) {
 			counter++;
 			actualEstado = abierta.get(0);
 			
@@ -51,22 +44,23 @@ public class Main {
 			System.out.println("ESTADO ACTUAL");
 			System.out.println(actualEstado.toString());
 			
-			//	Comprobar si el estado expandido es el final
+			// Comprobar si el estado expandido es el final y en caso de haber encontrado el estado 
+			// final, parar el while.
 			if (actualEstado.compararEstadoCon(estadoFinal) == true) {
 				System.out.println("Estado final alcanzado");
 				exito = true;
 				break;
-			}
-			//	En caso de haber encontrado el estado final, parar el while
-			if (exito) break;
-			
+			} else {
+			//  Mover estado actual a la lista cerrada
+				cerrada.add(actualEstado);
+				abierta.remove(0);
+			}	
 
-			
 			//	Mover guagua: mover(int source, int target)
 			// 	Asignar como source la parada actual de la guagua
 			int source = actualEstado.guagua.indexParadaActual;
-			System.out.println("Source: " + source);
 			
+			// Comprobar todos los posibles desplazamientos
 			for (int target=0; target < Util.NUM_PARADAS; target++) {
 				// Si las paradas son adyacentes, la guagua se puede mover entre ellas
 				if (Util.costesAdyacentes[source][target] > 0){			
@@ -84,8 +78,10 @@ public class Main {
 					}
 				}
 			}
+			
 			//Recoger alumno: recoger(int parada, int colegio)
-			for (int colegio=0; colegio < Util.NUM_COLEGIOS; colegio++) {
+			// Comprueba los alumnos que puede recoger en la parada actual
+			for (int colegio = 0; colegio < Util.NUM_COLEGIOS; colegio++) {
 				System.out.println("RECOGER: parada " + (source+1) + ", colegio: " + (colegio+1));
 				if (actualEstado.paradas[source].alumnosPorColegio[colegio]>0 && actualEstado.guagua.getCapacidadActual()>0) {
 					nuevoEstado = new Estado (actualEstado, "recoger", source, colegio);
@@ -102,6 +98,7 @@ public class Main {
 
 
 			//Entregar alumno: entregar(int parada, int colegio)
+			// Comprueba que alumnos puede dejar
 			for (int colegio=0; colegio < Util.NUM_COLEGIOS; colegio++) {
 				System.out.println("ENTREGAR: parada " + (source+1) + ", colegio: " + (colegio+1));
 				if (actualEstado.paradas[source].colegiosEnParada[colegio] == true && actualEstado.guagua.alumnosPorColegio[colegio]>0) {
@@ -110,29 +107,34 @@ public class Main {
 					System.out.println(nuevoEstado.toString());
 					if (!Util.isInList(nuevoEstado, cerrada)) {
 						if (!Util.isInList(nuevoEstado, abierta)) {
-							sucesores.add(nuevoEstado);
+							sucesores.add(nuevoEstado);					
 							estadosGenerados++;
 						}
 					} else System.out.println("Estado en lista cerrada");
 				}
 			}
+			
 			System.out.println("LISTA DE SUCESORES");
 			System.out.println("Tamaño de lista de sucesores: " + sucesores.size());
-			for (int i = 0; i < sucesores.size(); i++) {
-				sucesores.get(i).toString();
-			}
-			
+			System.out.println(sucesores.toString());
 			Util.sort(sucesores);
 
 			
-			abierta.remove(0);
+			//abierta.remove(0);
 			Util.mergeListsInOrder(abierta, sucesores);
 			//abierta.addAll(sucesores);
 			sucesores.clear();
 			System.out.println("Lista vacia: " + abierta.isEmpty());
-			cerrada.add(actualEstado);
+		
 		}
 		
+		//System.out.println("Abierta:");
+		//System.out.println(abierta.toString());
+		if (exito) {
+			System.out.println("Solución encontrada");
+		} else {
+			System.out.println("Solución no encontrada ");
+		}
 		System.out.println("Estados generados: " + estadosGenerados);
 		System.out.println("Estados expandidos: " + counter);
 		System.out.println("Camino: " + camino);
