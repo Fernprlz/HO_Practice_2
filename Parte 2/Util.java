@@ -29,7 +29,7 @@ public class Util {
 			index++;
 		}while(readChar != '\n');
 		NUM_PARADAS = counter;
-		System.out.println(counter);
+		//System.out.println(counter);
 
 		// Inicializamos la matriz de costes de los adyacentes
 		costesAdyacentes = new int [NUM_PARADAS][NUM_PARADAS];
@@ -192,6 +192,18 @@ public class Util {
 
 	/*---------------------------- I N P U T  P A R S E R ----------------------------*/
 
-
+	public static boolean isInList(Estado estado, ArrayList<Estado> lista){
+		boolean isInList = false;
+		for (int ii=0; ii<lista.size(); ii++){
+			if (lista.get(ii).compararEstadoCon(estado)==true) {
+				isInList = true;
+			} 
+		}
+		return isInList;
+	}
+	
+	public static void quickSort(ArrayList<Estado> lista) {
+		//TODO
+	}
 
 }

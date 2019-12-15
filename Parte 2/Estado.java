@@ -1,8 +1,9 @@
+import java.util.*;
 public class Estado {
 
 	public Parada[] paradas;
 	public Guagua guagua;
-	private int h;
+	public int h;
 
 	// TODO: Constructor vacio temporal para debugear, no se si lo necesitaremos luego
 	public Estado() {
@@ -16,10 +17,21 @@ public class Estado {
 		this.h = Util.calcHeuristic(paradas, guagua);
 	}
 
-	public Estado(Estado estadoPrevio, String accion,  int target){
+	public Estado(Estado estadoPrevio, String accion, int source, int segundoParametro){
+		//En caso de que la accion sea mover, el segundo parametro actuara como target
 		if (accion.equals("mover")) {
-			this.guagua = new Guagua (target, estadoPrevio.guagua.alumnosPorColegio);
+			this.guagua = new Guagua (segundoParametro, estadoPrevio.guagua.alumnosPorColegio, "mover");
 			this.paradas = estadoPrevio.paradas.clone();
+			h = 0;
+			h = h + Util.costesAdyacentes[source][segundoParametro];
+		}
+		
+		//En caso de que la accion sea recoger, el segundo parametro actua como el ID del colegio
+		if (accion.equals("recoger")) {
+			this.guagua = new Guagua (segundoParametro, estadoPrevio.guagua.alumnosPorColegio, "recoger");
+			this.paradas = estadoPrevio.paradas.clone();
+			h = 0;
+			h = h + Util.costesAdyacentes[source][segundoParametro];
 		}
 	}
 
@@ -31,23 +43,30 @@ public class Estado {
 		return guagua;
 	}
 
-	public boolean compararEstados(Estado estado1, Estado estado2){
+	public boolean compararEstadoCon(Estado estado2){
 		boolean sonIguales = true;
 		// Hacer todas las comparaciones
 		// Comparar primero el estado de la guagua, que es mas facil
-		if (estado1.guagua.indexParadaActual != estado2.guagua.indexParadaActual)
+		if (this.guagua.indexParadaActual != estado2.guagua.indexParadaActual) {
 		sonIguales = false;
-		else if (estado1.guagua.alumnosPorColegio.equals(estado2.guagua.alumnosPorColegio) == false)
-		sonIguales = false;
-
-		// Si sonIguales sigue siendo true, comparar todas las paradas hasta que se encuentre una que no coincide
-		for (int ii=0; ii<Util.NUM_PARADAS; ii++){
-			if (estado1.paradas[ii].alumnosPorColegio.equals(estado2.paradas[ii].alumnosPorColegio) == false)
-			sonIguales = false;
-			else if (estado1.paradas[ii].colegiosEnParada.equals(estado2.paradas[ii].colegiosEnParada) == false)
-			sonIguales = false;
-			if (!sonIguales) break;
 		}
+		else if (Arrays.equals(this.guagua.alumnosPorColegio, estado2.guagua.alumnosPorColegio) == false) {
+		sonIguales = false;
+		System.out.println("dos");
+		}
+		if (sonIguales) {
+			System.out.println("tres");
+		// Si sonIguales sigue siendo true, comparar todas las paradas hasta que se encuentre una que no coincide
+			for (int ii=0; ii<Util.NUM_PARADAS; ii++){
+				if (Arrays.equals(this.paradas[ii].alumnosPorColegio, estado2.paradas[ii].alumnosPorColegio) == false)
+					sonIguales = false;
+				else if (Arrays.equals(this.paradas[ii].colegiosEnParada, estado2.paradas[ii].colegiosEnParada) == false)
+					sonIguales = false;
+				if (!sonIguales) break;
+			}
+		}
+		
+		//System.out.println("Estados iguales: " + sonIguales);
 		
 		return sonIguales;
 	}

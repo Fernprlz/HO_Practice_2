@@ -13,11 +13,20 @@ public class Guagua {
 		this.alumnosPorColegio = new int[numColegios];
 	}
 
-	// Constructor para crear Guagua nueva a partir de una anterior (MOVER)
-	public Guagua(int indexParada, int[] alumnos) {
-		this.indexParadaActual = indexParada;
-		this.alumnosPorColegio = alumnos.clone();
+	// Constructor para crear Guagua nueva a partir de una anterior
+	public Guagua(int indexParada, int[] alumnos, String accion) {
+		// Accion MOVER
+		if (accion.equals("mover")) {
+			this.indexParadaActual = indexParada;
+			this.alumnosPorColegio = alumnos.clone();
+		}
+		// Accion RECOGER
+		if (accion.equals("recoger")) {
+			this.indexParadaActual = indexParada;
+			this.alumnosPorColegio = alumnos.clone();
+		}
 	}
+		
 
 	public int getCapacidadActual() {
 		return CAP - (IntStream.of(alumnosPorColegio).sum());
