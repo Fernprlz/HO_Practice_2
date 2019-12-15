@@ -2,9 +2,9 @@ import java.util.*;
 public class Util {
 
 	static final int INFINITE = -1;
-	static int NUM_PARADAS;
-	static int NUM_COLEGIOS;
-	static int[][] costesAdyacentes;
+	public static int NUM_PARADAS;
+	public static int NUM_COLEGIOS;
+	public static int[][] costesAdyacentes;
 
 	// TODO: Cambiar input2 a input cuando terminemos para pasarle el argumento
 	public static Estado initState(String input2) {
