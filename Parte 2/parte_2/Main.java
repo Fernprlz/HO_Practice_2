@@ -1,23 +1,24 @@
 package parte_2;
 import java.util.ArrayList;
+import java.io.*;
 
 public class Main {
 
 
 	public static void main(String[] args) {
-		
+
 		long startTime = System.currentTimeMillis();
-		System.out.println(args[0]);
+
 		// Creamos el estado inicial y le asignamos valores sacados del archivo de entrada
 		Estado estadoInicial = Util.initState(args[0]);
-		
+
 		//printMatrix(Util.costesAdyacentes);
-		/*
+		
 		printMatrix(Util.FWMatrix);
 
 		// Generar estado final a partir del inicial
 		Estado estadoFinal = Util.finalState(estadoInicial);
-		
+
 		System.out.println("estado inicial");
 		System.out.println(estadoInicial.toString());
 		System.out.println("Heuristica: " + estadoInicial.h);
@@ -49,7 +50,7 @@ public class Main {
 
 			System.out.println("-------------------------------------------------");
 
-			camino += "P" + (actualEstado.guagua.indexParadaActual+1) +"\t";
+			camino += "P" + (actualEstado.guagua.indexParadaActual+1) +" ";
 			System.out.println("ESTADO ACTUAL");
 			System.out.println(actualEstado.toString());
 			System.out.println("Heuristica: " + actualEstado.h);
@@ -83,6 +84,9 @@ public class Main {
 					if (!Util.isInList(nuevoEstado, cerrada)) {
 						// Comprobar si el estado generado esta en la lista abierta. Si lo est�, se comparan las funciones de coste
 						if (!Util.isButBetter(nuevoEstado, abierta)) {
+							// Actualizar variable de coste
+							costeFinal =+ Util.costesAdyacentes[source][target];
+
 							System.out.println("no en lista");
 							sucesores.add(nuevoEstado);
 							estadosGenerados++;
@@ -156,9 +160,26 @@ public class Main {
 		System.out.println("Coste total: " + costeFinal);
 		System.out.println("Estados generados: " + estadosGenerados);
 		System.out.println("Estados expandidos: " + estadosExpandidos);
-		System.out.println("Camino: " + camino);
+		System.out.println("Camino (la misma parada dos veces significa que se han hecho varias acciones en esa parada): " + camino);
 		System.out.println("Tiempo: " + execTime + " ms");
-*/
+
+
+		// Crear archivo de salida con el camino seguido por el algoritmo
+        try {
+            String ruta = "/problema.output";
+            String contenido = camino;
+            File file = new File(ruta);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 
 	public static void printMatrix(int[][] matrix) {
@@ -171,7 +192,7 @@ public class Main {
 				} else if (row > 0 && col == 0) {
 					System.out.print("P"+row+"\t");
 				} else if (row > 0 && col > 0) {
-					System.out.print(matrix[row - 1][col - 1]+"\t");	
+					System.out.print(matrix[row - 1][col - 1]+"\t");
 				}
 
 			}

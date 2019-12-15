@@ -10,7 +10,7 @@ public class Util {
 	static int NUM_COLEGIOS;
 	static int[][] costesAdyacentes;
 	static int[] indexParadaColegio;
-	static int HEURISTICA = 2;
+	static int HEURISTICA = 1;
 	static int[][] FWMatrix;
 
 	// TODO: Cambiar input2 a input cuando terminemos para pasarle el argumento
@@ -23,29 +23,13 @@ public class Util {
 	public static Estado initState(String input2) {
 		// TODO: DE MOMENTO USAMOS LA STRING COMO VARIABLE EN LUGAR DE COMO ENTRADA
 		String input = "";
-		
+
 		try {
 		input = Files.readString(Paths.get(input2));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		System.out.println(input);
-		
-		/*String input = "    P1  P2  P3  P4  P5  P6  P7  P8  P9\r\n" +
-				"P1  --  12  --  --  --  --  --  --   9\r\n" +
-				"P2  12  --  13  --  10  --  --  --  --\r\n" +
-				"P3  --  13  --  13  --  --  --  --   6\r\n" +
-				"P4  --  --  13  --   8  --  --   9  --\r\n" +
-				"P5  --  10  --   8  --  14  --   5  --\r\n" +
-				"P6  --  --  --  --  14  --   7  --  --\r\n" +
-				"P7  --  --  --  --  --   7  --   6  --\r\n" +
-				"P8  --  --  --   9   5  --   6  --  --\r\n" +
-				"P9   9  --   6  --  --  --  --  --  --\r\n" +
-				"\r\n" +
-				"\r\n" +
-				"C1: P6; C2: P3; C3: P8\r\n" +
-				"P2: 1 C2, 1 C3; P4: 1 C3; P5: 1 C2; P7: 2 C1, 1 C2\r\n" +
-				"B: P1 5";
 
 		// Aplicamos el primer tratamiento convirtiendo toda la string a lowerCase
 		input = input.toLowerCase();
@@ -160,11 +144,10 @@ public class Util {
 
 		// Le damos el valor a la CAP de la guagua
 		Guagua.CAP = Integer.parseInt(datosGuagua[1]);
-		
+
 		// Creamos la matriz de costes entre cada par de Paradas
 		FloydWarshall();
-		return new Estado(paradas, guagua);*/
-		return new Estado();
+		return new Estado(paradas, guagua);
 	}
 
 
@@ -178,7 +161,7 @@ public class Util {
 		for (int i = 0; i < paradas.length; i++) {
 			boolean[] finalColegios = estadoInicial.paradas[i].colegiosEnParada.clone();
 			int[] finalAlumnosParada = new int [NUM_COLEGIOS];
-			paradas[i]= new Parada(finalAlumnosParada, finalColegios);		
+			paradas[i]= new Parada(finalAlumnosParada, finalColegios);
 		}
 
 		int posicion = estadoInicial.guagua.indexParadaActual;
@@ -197,9 +180,9 @@ public class Util {
 		// La heuristica numero 1 se har� con la matriz de Floyd-Warshall y los alumnos en la guagua
 		if (HEURISTICA == 1) {
 			for (int j = 0; j < guagua.alumnosPorColegio.length; j++) {
-				coste += guagua.alumnosPorColegio[j] * FWMatrix[guagua.indexParadaActual][Util.indexParadaColegio[j]];		
-			}		
-			
+				coste += guagua.alumnosPorColegio[j] * FWMatrix[guagua.indexParadaActual][Util.indexParadaColegio[j]];
+			}
+
 			for (int i = 0; i < paradas.length; i++) {
 				for (int j = 0; j < NUM_COLEGIOS; j++) {
 					coste += paradas[i].alumnosPorColegio[j] * FWMatrix[guagua.indexParadaActual][Util.indexParadaColegio[j]];
@@ -241,11 +224,11 @@ public class Util {
 			for (int j = 0; j < FWMatrix.length; j++) {
 				for (int k = 0; k < FWMatrix.length; k++) {
 					FWMatrix[j][k] = Math.min(FWMatrix[j][k], FWMatrix[j][i] + FWMatrix[i][k]);
-				}	
+				}
 			}
 		}
 		//Main.printMatrix(FWMatrix);
-		
+
 	}
 
 
@@ -253,7 +236,7 @@ public class Util {
 
 
 	/**
-	 * Comprueba que un estado ya est� en la lista, pero aparece con mayor heur�stica. 
+	 * Comprueba que un estado ya est� en la lista, pero aparece con mayor heur�stica.
 	 * En ese caso la elimina para que pueda a�adirse la mejor versi�n.
 	 * @param estado
 	 * @param lista
@@ -274,7 +257,7 @@ public class Util {
 		// Si lo hemos encontrado, comparamos las heur�sticas
 		if(isInList) {
 			int diff = heur.compare(lista.get(coincidenceIndex), estado);
-			// Si la heur�stica del nuevo estado es mejor, eliminamos su anterior iteracion de la lista 
+			// Si la heur�stica del nuevo estado es mejor, eliminamos su anterior iteracion de la lista
 			// No introducimos aqui el nuevo estado, pues se introducira desde el algoritmo
 			if (diff > 0) {
 				lista.remove(coincidenceIndex);
@@ -333,7 +316,7 @@ public class Util {
 					// Tras a�adirla no necesito seguir recorriendo la lista.
 					added = true;
 					break;
-				} 
+				}
 			}
 			// Si tras analizar toda la lista no hemos encontrado sitio, la a�adimos al final
 			if (added == false) {
