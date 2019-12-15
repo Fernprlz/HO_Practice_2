@@ -240,7 +240,8 @@ public class Util {
 		return isInList;
 	}
 
-	public static void quickSort(ArrayList<Estado> list) {
-	}
 
+	public static void sort(ArrayList<Estado> list) {
+		Collections.sort(list, new ByHeuristics());
+	}
 }
