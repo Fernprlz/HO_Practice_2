@@ -91,7 +91,7 @@ public class Estado {
 				} else if (ii > 0 && colegio == 0) {
 					result += "G\t";
 				} else if (ii > 0 && colegio > 0) {
-					result += guagua.alumnosPorColegio[colegio - 1] + "\t";
+					result += guagua.alumnosPorColegio[colegio-1] + "\t";
 				}
 			}
 			result += "\n";
@@ -117,7 +117,7 @@ public class Estado {
 		System.out.println("dos");
 		}
 		if (sonIguales) {
-			System.out.println("tres");
+			//System.out.println("tres");
 		// Si sonIguales sigue siendo true, comparar todas las paradas hasta que se encuentre una que no coincide
 			for (int ii=0; ii<Util.NUM_PARADAS; ii++){
 				if (Arrays.equals(this.paradas[ii].alumnosPorColegio, estado2.paradas[ii].alumnosPorColegio) == false)
