@@ -11,6 +11,10 @@ public class Estado {
 
 	}
 
+	public Estado(int h) {
+		this.h = h;
+	}
+
 	public Estado(Parada[] paradas, Guagua guagua) {
 		this.paradas = paradas;
 		this.guagua = guagua;
@@ -23,8 +27,7 @@ public class Estado {
 		if (accion.equals("mover")) {
 			this.guagua = new Guagua (segundoParametro, estadoPrevio.guagua.alumnosPorColegio);
 			this.paradas = estadoPrevio.paradas.clone();
-			h = 0;
-			h = h + Util.costesAdyacentes[source][segundoParametro];
+			this.h = estadoPrevio.h + Util.calcHeuristic(paradas, guagua) + Util.costesAdyacentes[source][segundoParametro];
 		}
 
 		//En caso de que la accion sea recoger, el segundo parametro actua como el indice del colegio
@@ -38,8 +41,9 @@ public class Estado {
 			Parada[] nuevasParadas = estadoPrevio.paradas.clone();
 			nuevasParadas[source].alumnosPorColegio[segundoParametro]--;
 			this.paradas = nuevasParadas.clone();
-			h = 0;
-			//TODO: Heuristica aqui
+			
+			// Calcular nueva funcion de coste
+			this.h = estadoPrevio.h + Util.calcHeuristic(paradas, guagua);
 		}
 
 		//En caso de que la accion sea entregar, el segundo parametro actua como el indice del colegio
@@ -51,7 +55,7 @@ public class Estado {
 
 			// La parada se queda igual: el alumno "desaparece"
 			this.paradas = estadoPrevio.paradas.clone();
-			h = 0;
+			this.h = estadoPrevio.h + Util.calcHeuristic(paradas, guagua);
 			//TODO: Heuristica aqui
 		}
 
@@ -104,7 +108,11 @@ public class Estado {
 		return result;
 	}
 
-
+	/**
+	 * Compara este estado con el del argumento.
+	 * @param estado2
+	 * @return  true si son iguales | false si no.
+	 */
 	public boolean compararEstadoCon(Estado estado2){
 		boolean sonIguales = true;
 		// Hacer todas las comparaciones
@@ -120,7 +128,7 @@ public class Estado {
 				if (Arrays.equals(this.paradas[ii].alumnosPorColegio, estado2.paradas[ii].alumnosPorColegio) == false) {
 					sonIguales = false;
 					break;
-				}else if (Arrays.equals(this.paradas[ii].colegiosEnParada, estado2.paradas[ii].colegiosEnParada) == false){ 
+				}else if (Arrays.equals(this.paradas[ii].colegiosEnParada, estado2.paradas[ii].colegiosEnParada) == false){
 					sonIguales = false;
 					break;
 				}
@@ -129,16 +137,14 @@ public class Estado {
 
 		return sonIguales;
 	}
-
-
 }
 
-// Definimos el criterio que usará Collections.sort para ordenar la ArrayList de estados.
-// Esta función implementa mergeSort.
+// Definimos el criterio que usarï¿½ Collections.sort para ordenar la ArrayList de estados.
+// Esta funciï¿½n implementa mergeSort.
 class ByHeuristics implements Comparator<Estado> {
 
 	/**
-	 * Compara dos Estados según su heurística devolviendo la diferencia del primero con el segundo. 
+	 * Compara dos Estados segï¿½n su heurï¿½stica devolviendo la diferencia del primero con el segundo.
 	 */
 	public int compare(Estado a, Estado b) {
 		return a.h - b.h;
