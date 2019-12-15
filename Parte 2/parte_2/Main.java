@@ -1,3 +1,4 @@
+package parte_2;
 import java.util.ArrayList;
 
 public class Main {
@@ -6,11 +7,16 @@ public class Main {
 	public static void main(String[] args) {
 		// Creamos el estado inicial y le asignamos valores sacados del archivo de entrada
 		Estado estadoInicial = Util.initState("s");
-
+		Estado estadoFinal = Util.finalState(estadoInicial);
+		
+		System.out.println("estado inicial");
 		System.out.println(estadoInicial.toString());
 
+		System.out.println();
+		System.out.println("Estado final:");
+		System.out.println(estadoFinal.toString());
 		// Implementar el modelo
-
+		
 
 		// Implementar A*
 		ArrayList<Estado> abierta = new ArrayList<Estado>();
@@ -24,9 +30,16 @@ public class Main {
 		abierta.add(estadoInicial);
 
 		while (!abierta.isEmpty()) {
-			if (exito) break;
-			//Generar sucesores
 			actualEstado = abierta.get(0);
+			//Comprobar si el estado expandido es el final
+			if (actualEstado.compararEstadoCon(estadoFinal) == true) {
+				exito = true;
+			}
+			//En caso de haber encontrado el estado final, parar el while
+			if (exito) break;
+			
+			//Generar sucesores
+			
 			ArrayList<Estado> sucesores = new ArrayList<Estado>();
 			//Mover guagua: mover(int source, int target)
 			int source = actualEstado.guagua.indexParadaActual;			// Asignar como source la parada actual de la guagua
@@ -57,7 +70,7 @@ public class Main {
 			//TODO:Entregar alumno: entregar(int parada, int colegio)
 			for (int parada=0; parada < Util.NUM_PARADAS; parada++) {
 				for (int colegio=0; colegio < Util.NUM_COLEGIOS; colegio++) {
-					if (actualEstado.paradas[parada].alumnosPorColegio[colegio]>0) {
+					if (actualEstado.paradas[parada].colegiosEnParada[colegio] == true && actualEstado.guagua.alumnosPorColegio[colegio]>0) {
 						nuevoEstado = new Estado (actualEstado, "entregar", source, colegio);
 						if (!Util.isInList(nuevoEstado, abierta)) {
 							sucesores.add(nuevoEstado);
@@ -67,6 +80,7 @@ public class Main {
 			}
 			Util.quickSort(sucesores);
 			abierta.remove(0);
+			abierta.addAll(sucesores);
 			System.out.println("Lista vacia: " + abierta.isEmpty());
 			cerrada.add(actualEstado);
 		}
@@ -87,6 +101,5 @@ public class Main {
 
 		}
 	}
-
 
 }

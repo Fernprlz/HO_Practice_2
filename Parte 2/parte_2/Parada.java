@@ -1,3 +1,4 @@
+package parte_2;
 public class Parada {
 
 	public int[] alumnosPorColegio;

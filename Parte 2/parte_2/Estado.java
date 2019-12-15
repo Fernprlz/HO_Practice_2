@@ -1,3 +1,4 @@
+package parte_2;
 import java.util.*;
 public class Estado {
 
@@ -42,6 +43,18 @@ public class Estado {
 		}
 
 		//En caso de que la accion sea entregar, el segundo parametro actua como el indice del colegio
+		if (accion.equals("entregar")) {
+			// Reducir el numero de alumnos en la guagua del colegio correspondiente
+			int[] nuevoAlumnosGuagua = estadoPrevio.guagua.alumnosPorColegio.clone();
+			nuevoAlumnosGuagua[segundoParametro]--;
+			this.guagua = new Guagua (source, nuevoAlumnosGuagua);
+
+			// La parada se queda igual: el alumno "desaparece"
+			this.paradas = estadoPrevio.paradas.clone();
+			h = 0;
+			//TODO: Heuristica aqui
+		}
+	
 	}
 
 	public Parada getParada(int index) {
@@ -86,7 +99,7 @@ public class Estado {
 
 		return result;
 	}
-}
+
 
 	public boolean compararEstadoCon(Estado estado2){
 		boolean sonIguales = true;
@@ -113,4 +126,6 @@ public class Estado {
 
 		return sonIguales;
 	}
+	
+	
 }

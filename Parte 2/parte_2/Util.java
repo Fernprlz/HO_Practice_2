@@ -1,3 +1,4 @@
+package parte_2;
 import java.util.*;
 public class Util {
 
@@ -123,7 +124,7 @@ public class Util {
 				}
 			}
 
-			// Creamos el objeto parada que ir� en el indice actual del array de paradas
+			// Creamos el objeto parada que ira en el indice actual del array de paradas
 			Parada parada = new Parada(alumnosPorColegio, colegiosEnParada);
 
 			// Guardamos la parada en el array
@@ -141,6 +142,20 @@ public class Util {
 		Guagua.CAP = Integer.parseInt(datosGuagua[1]);
 
 		return new Estado(paradas, guagua);
+	}
+	
+	// Metodo para construir el estado final a partir del inicial
+	public static Estado finalState(Estado estadoInicial) {
+		Parada[] paradas = new Parada [NUM_PARADAS];
+		for (int i = 0; i < paradas.length; i++) {
+			boolean[] finalColegios = estadoInicial.paradas[i].colegiosEnParada.clone();
+			int[] finalAlumnosParada = new int [NUM_COLEGIOS];
+			paradas[i]= new Parada(finalAlumnosParada, finalColegios);		
+		}
+		
+		int posicion = estadoInicial.guagua.indexParadaActual;
+		Guagua guagua = new Guagua(posicion, NUM_COLEGIOS);
+		return new Estado (paradas, guagua);
 	}
 
 
@@ -225,8 +240,7 @@ public class Util {
 		return isInList;
 	}
 
-	public static void quickSort(ArrayList<Estado> lista) {
-		//TODO
+	public static void quickSort(ArrayList<Estado> list) {
 	}
 
 }
