@@ -17,21 +17,22 @@ elif [ "$#" = 2 ]
   then
     # Compilamos los archivos de java
     cd ..
-    javac parte_2/Util.java
-    javac parte_2/Guagua.java
-    javac parte_2/Parada.java
-    javac parte_2/Estado.java
-    javac parte_2/Main.java
+    javac parte-2/Util.java
+    javac parte-2/Guagua.java
+    javac parte-2/Parada.java
+    javac parte-2/Estado.java
+    javac parte-2/Main.java
 
-    java parte_2/Main "parte_2/"$1 $2
+
+    java parte-2/Main "parte-2/ejemplos/"$1 $2
 
     # Al final de la ejecucion borramos los archivos .class generados.
-    rm parte_2/Util.class
-    rm parte_2/Guagua.class
-    rm parte_2/Parada.class
-    rm parte_2/Estado.class
-    rm parte_2/ByHeuristics.class
-    rm parte_2/Main.class
+    rm parte-2/Util.class
+    rm parte-2/Guagua.class
+    rm parte-2/Parada.class
+    rm parte-2/Estado.class
+    rm parte-2/ByHeuristics.class
+    rm parte-2/Main.class
 
     exit 1
 else

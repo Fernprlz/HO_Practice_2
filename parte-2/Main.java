@@ -1,4 +1,4 @@
-package parte_2;
+
 import java.util.ArrayList;
 import java.io.*;
 
@@ -10,10 +10,10 @@ public class Main {
 		long startTime = System.currentTimeMillis();
 
 		// Creamos el estado inicial y le asignamos valores sacados del archivo de entrada
-		Estado estadoInicial = Util.initState(args[0]);
+		Estado estadoInicial = Util.initState(args[0], args[1]);
 
 		//printMatrix(Util.costesAdyacentes);
-		
+
 		printMatrix(Util.FWMatrix);
 
 		// Generar estado final a partir del inicial
@@ -157,29 +157,28 @@ public class Main {
 		}
 		long execTime = System.currentTimeMillis() - startTime;
 		//System.out.println("Paradas visitadas: " + paradasVisitadas);
-		System.out.println("Coste total: " + costeFinal);
-		System.out.println("Estados generados: " + estadosGenerados);
-		System.out.println("Estados expandidos: " + estadosExpandidos);
-		System.out.println("Camino (la misma parada dos veces significa que se han hecho varias acciones en esa parada): " + camino);
-		System.out.println("Tiempo: " + execTime + " ms");
+		String stats = "";
+		stats += "Coste total: " + costeFinal + "\n";
+		stats += "Estados generados: " + estadosGenerados + "\n";
+		stats += "Estados expandidos: " + estadosExpandidos + "\n";
+		stats += "Coste total: " + costeFinal + "\n";
+		stats += "Tiempo: " + execTime + " ms";
+
+		System.out.println(stats);
 
 
 		// Crear archivo de salida con el camino seguido por el algoritmo
-        try {
-            String ruta = "/problema.output";
-            String contenido = camino;
-            File file = new File(ruta);
-            // Si el archivo no existe es creado
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileWriter fw = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(contenido);
-            bw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+		try {
+		BufferedWriter writer1 = new BufferedWriter(new FileWriter(args[0]+".output"));
+		writer1.write(camino);
+		BufferedWriter writer2 = new BufferedWriter(new FileWriter(args[0]+".statistics"));
+		writer2.write(stats);
+		writer1.close();
+		writer2.close();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void printMatrix(int[][] matrix) {

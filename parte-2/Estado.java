@@ -1,4 +1,4 @@
-package parte_2;
+
 import java.util.*;
 public class Estado {
 
@@ -41,7 +41,7 @@ public class Estado {
 			Parada[] nuevasParadas = estadoPrevio.paradas.clone();
 			nuevasParadas[source].alumnosPorColegio[segundoParametro]--;
 			this.paradas = nuevasParadas.clone();
-			
+
 			// Calcular nueva funcion de coste
 			this.h = estadoPrevio.h + Util.calcHeuristic(paradas, guagua);
 		}

@@ -1,4 +1,4 @@
-package parte_2;
+
 import java.util.*;
 import java.io.*;
 import java.nio.file.Files;
@@ -10,7 +10,7 @@ public class Util {
 	static int NUM_COLEGIOS;
 	static int[][] costesAdyacentes;
 	static int[] indexParadaColegio;
-	static int HEURISTICA = 1;
+	static int HEURISTICA;
 	static int[][] FWMatrix;
 
 	// TODO: Cambiar input2 a input cuando terminemos para pasarle el argumento
@@ -20,7 +20,8 @@ public class Util {
 	 * @param input2
 	 * @return Estado inicial con los datos del archivo de entrada
 	 */
-	public static Estado initState(String input2) {
+	public static Estado initState(String input2, int heuristica) {
+		HEURISTICA = heuristica;
 		// TODO: DE MOMENTO USAMOS LA STRING COMO VARIABLE EN LUGAR DE COMO ENTRADA
 		String input = "";
 

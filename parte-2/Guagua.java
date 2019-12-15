@@ -1,4 +1,4 @@
-package parte_2;
+
 import java.util.stream.*;
 public class Guagua {
 
@@ -19,7 +19,7 @@ public class Guagua {
 			this.indexParadaActual = indexParada;
 			this.alumnosPorColegio = alumnos.clone();
 	}
-		
+
 
 	public int getCapacidadActual() {
 		return CAP - (IntStream.of(alumnosPorColegio).sum());
