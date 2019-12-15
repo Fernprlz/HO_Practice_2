@@ -10,7 +10,7 @@ public class Estado {
 	public Estado() {
 
 	}
-	
+
 	public Estado(int h) {
 		this.h = h;
 	}
@@ -58,7 +58,7 @@ public class Estado {
 			h = 0;
 			//TODO: Heuristica aqui
 		}
-	
+
 	}
 
 	public Parada getParada(int index) {
@@ -95,7 +95,7 @@ public class Estado {
 				} else if (ii > 0 && colegio == 0) {
 					result += "G\t";
 				} else if (ii > 0 && colegio > 0) {
-					result += guagua.alumnosPorColegio[colegio - 1] + "\t";
+					result += guagua.alumnosPorColegio[colegio-1] + "\t";
 				}
 			}
 			result += "\n";
@@ -108,21 +108,25 @@ public class Estado {
 		return result;	
 	}
 
-
+	/**
+	 * Compara este estado con el del argumento.
+	 * @param estado2
+	 * @return  true si son iguales | false si no.
+	 */
 	public boolean compararEstadoCon(Estado estado2){
 		boolean sonIguales = true;
 		// Hacer todas las comparaciones
 		// Comparar primero el estado de la guagua, que es mas facil
 		if (this.guagua.indexParadaActual != estado2.guagua.indexParadaActual) {
-		sonIguales = false;
+			sonIguales = false;
 		}
 		else if (Arrays.equals(this.guagua.alumnosPorColegio, estado2.guagua.alumnosPorColegio) == false) {
-		sonIguales = false;
-		System.out.println("dos");
+			sonIguales = false;
+			System.out.println("dos");
 		}
 		if (sonIguales) {
-			System.out.println("tres");
-		// Si sonIguales sigue siendo true, comparar todas las paradas hasta que se encuentre una que no coincide
+			//System.out.println("tres");
+			// Si sonIguales sigue siendo true, comparar todas las paradas hasta que se encuentre una que no coincide
 			for (int ii=0; ii<Util.NUM_PARADAS; ii++){
 				if (Arrays.equals(this.paradas[ii].alumnosPorColegio, estado2.paradas[ii].alumnosPorColegio) == false)
 					sonIguales = false;
@@ -134,14 +138,12 @@ public class Estado {
 
 		return sonIguales;
 	}
-	
-	
 }
 
 // Definimos el criterio que usará Collections.sort para ordenar la ArrayList de estados.
 // Esta función implementa mergeSort.
 class ByHeuristics implements Comparator<Estado> {
-	
+
 	/**
 	 * Compara dos Estados según su heurística devolviendo la diferencia del primero con el segundo. 
 	 */

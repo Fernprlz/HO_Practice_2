@@ -9,6 +9,12 @@ public class Util {
 	static int[] indexParadaColegio;
 
 	// TODO: Cambiar input2 a input cuando terminemos para pasarle el argumento
+	
+	/**
+	 * Parsea el archivo de entrada y genera el estado inicial.
+	 * @param input2
+	 * @return Estado inicial con los datos del archivo de entrada
+	 */
 	public static Estado initState(String input2) {
 		// TODO: DE MOMENTO USAMOS LA STRING COMO VARIABLE EN LUGAR DE COMO ENTRADA
 		String input = "    P1  P2  P3  P4  P5  P6  P7  P8  P9\r\n" +
@@ -65,7 +71,7 @@ public class Util {
 		for (int row = 0; row < costesAdyacentes.length; row++) {
 			for (int col = 0; col < costesAdyacentes[row].length; col++, splitCostesIndex++) {
 				// Si encontramos un "--" grabamos un "infinito" (mï¿½ximo numero representable)
-				// Si el nï¿½mero es vï¿½lido lo guardamos.
+				// Si el numero es valido lo guardamos.
 				costesAdyacentes[row][col] = (splitCostes[splitCostesIndex].equals("--")) ? INFINITE : Integer.parseInt(splitCostes[splitCostesIndex]);
 			}
 		}
@@ -74,12 +80,12 @@ public class Util {
 		// Primero separamos en lineas, cada una guarda una informacion distinta.
 		String[] lineasOtrosDatos = stringOtrosDatos.split("[\\r\\n]+");
 
-		// Parseamos la primera, que nos dice en quï¿½ parada se encuentra cada colegio.
+		// Parseamos la primera, que nos dice en que parada se encuentra cada colegio.
 		lineasOtrosDatos[0] = lineasOtrosDatos[0].replaceAll("[ a-z]+", "");
 
 		String[] ubicacionColegios = lineasOtrosDatos[0].split(";");
 
-		// El tamaï¿½o de esta array nos dirï¿½ cuantos colegios hay, con lo que podremos inicializar las arrays de colegios de TODO PARADA Y UTIL
+		// El tamaño de esta array nos dira cuantos colegios hay, con lo que podremos inicializar las arrays de colegios de TODO PARADA Y UTIL
 		NUM_COLEGIOS = ubicacionColegios.length;
 
 		// Inicializamos el array de indices para acceder a las paradas que contienen los colegios mï¿½s facilmente.
@@ -144,7 +150,12 @@ public class Util {
 		return new Estado(paradas, guagua);
 	}
 
-	// Metodo para construir el estado final a partir del inicial
+
+	/**
+	 * Construye el estado final reutilizando el array de colegios por parada del estado inicial.
+	 * @param estadoInicial
+	 * @return Estado final
+	 */
 	public static Estado finalState(Estado estadoInicial) {
 		Parada[] paradas = new Parada [NUM_PARADAS];
 		for (int i = 0; i < paradas.length; i++) {
@@ -159,10 +170,8 @@ public class Util {
 	}
 
 
-
-
 	/**
-	 *
+	 * Calcula una heurística
 	 * @param estado
 	 * @return
 	 */
@@ -180,7 +189,7 @@ public class Util {
 		return 1;
 	}
 
-
+	/**
 	public static Grafo calculateShortestPathFromSource(Grafo graph, Nodo source) {
 		source.setDistance(0);
 		Set<Nodo> settledNodos = new HashSet<>();
@@ -225,23 +234,72 @@ public class Util {
 			shortestPath.add(sourceNodo);
 			evaluationNodo.setShortestPath(shortestPath);
 		}
-	}
+	}*/
 
+
+	/**
+	 * Comprueba que un estado ya está en la lista, pero aparece con mayor heurística. 
+	 * En ese caso la elimina para que pueda añadirse la mejor versión.
+	 * @param estado
+	 * @param lista
+	 * @return
+	 */
+	public static boolean isButBetter(Estado estado, ArrayList<Estado> lista){
+		boolean isInList = false;
+		ByHeuristics heur = new ByHeuristics();
+		// Buscamos por fuerza bruta el estado en la lista de estados.
+		int coincidenceIndex = 0;
+		for (; coincidenceIndex < lista.size(); coincidenceIndex++){
+			if (lista.get(coincidenceIndex).compararEstadoCon(estado)==true) {
+				isInList = true;
+				break;
+			}
+		}
+		
+		// Si lo hemos encontrado, comparamos las heurísticas
+		if(isInList) {
+			int diff = heur.compare(lista.get(coincidenceIndex), estado);
+			// Si la heurística del nuevo estado es mejor, eliminamos su anterior iteracion de la lista 
+			// No introducimos aqui el nuevo estado, pues se introducira desde el algoritmo
+			if (diff > 0) {
+				lista.remove(coincidenceIndex);
+			}
+		}
+		
+		return isInList;
+	}
+	
+	//TODO: Es eficiente?
+	/**
+	 * Comprueba que un estado ya está en la lista comparando todos los campos del objeto
+	 * @param estado
+	 * @param lista
+	 * @return
+	 */
 	public static boolean isInList(Estado estado, ArrayList<Estado> lista){
 		boolean isInList = false;
 		for (int ii=0; ii<lista.size(); ii++){
 			if (lista.get(ii).compararEstadoCon(estado)==true) {
 				isInList = true;
+				break;
 			}
 		}
 		return isInList;
 	}
 
-
+	/**
+	 * Ordena una lista de estados según la heurística
+	 * @param Lista a ordenar
+	 */
 	public static void sort(ArrayList<Estado> list) {
 		Collections.sort(list, new ByHeuristics());
 	}
 
+	/**
+	 * Introduce los elementos de la lista guest en la lista host maneteniendo el orden creciente de heuristicas de estado.
+	 * @param host
+	 * @param guest
+	 */
 	public static void mergeListsInOrder(ArrayList<Estado> host, ArrayList<Estado> guest) {
 		// Instancio la clase ByHeuristics para aprovechar el metodo compare
 		ByHeuristics heur = new ByHeuristics();
